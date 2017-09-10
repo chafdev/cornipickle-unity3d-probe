@@ -104,7 +104,8 @@ public class Probe : MonoBehaviour
 
         public View Parent { get; private set; }
         public View()
-        { }
+        {
+        }
 
         public View(GameObject g)
         {
@@ -262,7 +263,7 @@ public class Probe : MonoBehaviour
 
 
         resultJson.AddField("element", "window");
-        resultJson.AddField("aspect-ratio", Util.getAspectRatio(Vector2.zero).x);
+        resultJson.AddField("aspect-ratio", Config.getAspectRatio(Vector2.zero).x);
         resultJson.AddField("orientation", "");
         resultJson.AddField("width", "");
         resultJson.AddField("height", "");
@@ -465,19 +466,19 @@ public class Probe : MonoBehaviour
 
             //   int i1 = r.nextInt(500 - 20) + 20;
             if (isAttributeExists("left"))
-                jNodeChild.AddField("left", Util.getAbsoluteLeft(v));
+                jNodeChild.AddField("left", Config.getAbsoluteLeft(v));
             if (isAttributeExists("right"))
-                jNodeChild.AddField("right", Util.getAbsoluteRight(v));
+                jNodeChild.AddField("right", Config.getAbsoluteRight(v));
             if (isAttributeExists("top"))
-                jNodeChild.AddField("top", Util.getAbsoluteTop(v));
+                jNodeChild.AddField("top", Config.getAbsoluteTop(v));
             if (isAttributeExists("bottom"))
-                jNodeChild.AddField("bottom", Util.getAbsoluteBottom(v));
+                jNodeChild.AddField("bottom", Config.getAbsoluteBottom(v));
             if (isAttributeExists("size") && v.transform.childCount > 0)
                 jNodeChild.AddField("size", v.transform.childCount);
             if (isAttributeExists("background"))
             {
 
-                jNodeChild.AddField("background", Util.getBackground(v));
+                jNodeChild.AddField("background", Config.getBackground(v));
 
             }
             if (isAttributeExists("event"))
