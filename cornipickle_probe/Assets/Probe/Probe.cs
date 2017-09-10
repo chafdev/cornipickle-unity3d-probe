@@ -270,8 +270,6 @@ public class Probe : MonoBehaviour
         resultJson.AddField("device-width", "");
         resultJson.AddField("device-height", "");
         resultJson.AddField("url", "");
-        resultJson.AddField("device-aspect-ratio", "");
-        resultJson.AddField("device-density", "");
         resultJson.AddField("device-langue", "");
         JSONObject arr = new JSONObject(JSONObject.Type.ARRAY);
 
