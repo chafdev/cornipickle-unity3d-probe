@@ -318,11 +318,7 @@ public class Probe : MonoBehaviour
     {
 
         JSONObject jNode = new JSONObject(JSONObject.Type.OBJECT);
-
-
-
         jArray.Add(jNode);
-
         JSONObject jArrayChild = new JSONObject(JSONObject.Type.ARRAY);
 
         //  Debug.Log(tc.name + " Level " + level);
@@ -334,7 +330,7 @@ public class Probe : MonoBehaviour
                 addAttributeIfDefined(jNode, component, evt);
                 break;
             }
-            Debug.Log("1 Transform: " + tc.name + " Component: " + component.name + " level: " + level);
+          //  Debug.Log("1 Transform: " + tc.name + " Component: " + component.name + " level: " + level);
         }
         foreach (Transform t in tc)
         {
@@ -358,11 +354,10 @@ public class Probe : MonoBehaviour
                     {
                         //  level = level + 1;
                         jNodeChild.AddField("communt", t.GetComponents<Component>()[0].name.ToString());
-
                         addAttributeIfDefined(jNodeChild, component, evt);
                         jArrayChild.Add(jNodeChild);
                     }
-                    break;
+          
                     // Debug.Log("trasform-Parent: " + t.name + " Component: " + component.name + " level: " + level);
                 }
             }
@@ -404,19 +399,19 @@ public class Probe : MonoBehaviour
 
             //   int i1 = r.nextInt(500 - 20) + 20;
             if (isAttributeExists("left"))
-                jNodeChild.AddField("left", Config.getAbsoluteLeft(v));
+                jNodeChild.AddField("left", Util.getAbsoluteLeft(rt));
             if (isAttributeExists("right"))
-                jNodeChild.AddField("right", Config.getAbsoluteRight(v));
+                jNodeChild.AddField("right", Util.getAbsoluteRight(rt));
             if (isAttributeExists("top"))
-                jNodeChild.AddField("top", Config.getAbsoluteTop(v));
+                jNodeChild.AddField("top", Util.getAbsoluteTop(rt));
             if (isAttributeExists("bottom"))
-                jNodeChild.AddField("bottom", Config.getAbsoluteBottom(v));
+                jNodeChild.AddField("bottom", Util.getAbsoluteBottom(rt));
             if (isAttributeExists("size") && v.transform.childCount > 0)
                 jNodeChild.AddField("size", v.transform.childCount);
             if (isAttributeExists("background"))
             {
 
-                jNodeChild.AddField("background", Config.getBackground(v));
+                jNodeChild.AddField("background", Util.getBackground(v));
 
             }
             if (isAttributeExists("event"))

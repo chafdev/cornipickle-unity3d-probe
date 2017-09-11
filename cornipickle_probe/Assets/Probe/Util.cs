@@ -18,7 +18,8 @@ public class Util
         return (height == 0) ? width : gcd(height, width % height);
     }
 
-   public static float getApsectRatio() {
+    public static float getApsectRatio()
+    {
 
         return Screen.width / Screen.height;
     }
@@ -36,7 +37,8 @@ public class Util
 
         return Screen.orientation.ToString();
     }
-    public static Vector2 GetScreenDimen(){
+    public static Vector2 GetScreenDimen()
+    {
 
         return new Vector2(Screen.width, Screen.height);
     }
@@ -91,24 +93,36 @@ public class Util
     }
     internal static float getAbsoluteLeft(Component v)
     {
-        return DisplayWorldCorners((RectTransform)v, CornerRectangle.left);
+        if (v is RectTransform)
+
+            return DisplayWorldCorners((RectTransform)v, CornerRectangle.left);
+        return 0.1f;
     }
 
     internal static float getAbsoluteRight(Component v)
     {
-        return DisplayWorldCorners((RectTransform)v, CornerRectangle.right);
+        if (v is RectTransform)
+
+            return DisplayWorldCorners((RectTransform)v, CornerRectangle.right);
+        return 0.1f;
 
     }
 
     internal static float getAbsoluteTop(Component v)
     {
-        return DisplayWorldCorners((RectTransform)v, CornerRectangle.top);
+        if (v is RectTransform)
+
+            return DisplayWorldCorners((RectTransform)v, CornerRectangle.top);
+        return 0.1f;
 
     }
 
     internal static float getAbsoluteBottom(Component v)
     {
-        return DisplayWorldCorners((RectTransform)v, CornerRectangle.bottom);
+        if (v is RectTransform)
+
+            return DisplayWorldCorners((RectTransform)v, CornerRectangle.bottom);
+        return 0.1f;
 
     }
 
