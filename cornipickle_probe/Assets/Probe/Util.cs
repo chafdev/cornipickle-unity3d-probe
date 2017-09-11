@@ -18,6 +18,11 @@ public class Util
         return (height == 0) ? width : gcd(height, width % height);
     }
 
+   public static float getApsectRatio() {
+
+        return Screen.width / Screen.height;
+    }
+
     // Used to scale image according to aspect ratio
     Vector2 calculateAspectRatioFit(int srcWidth, int srcHeight, int maxWidth, int maxHeight)
     {
@@ -31,7 +36,10 @@ public class Util
 
         return Screen.orientation.ToString();
     }
+    public static Vector2 GetScreenDimen(){
 
+        return new Vector2(Screen.width, Screen.height);
+    }
     public static Vector2 getDeviceWH()
     {
 
@@ -48,11 +56,12 @@ public class Util
     /// The language the user's operating system is running in. Returned by Application.systemLanguage.
     /// </summary>
     /// <returns></returns>
-    public string getLangueApp()
+    public static string getLangueApp()
     {
         return Application.systemLanguage.ToString();
     }
-  public  enum CornerRectangle{
+    public enum CornerRectangle
+    {
         left,
         top,
         right,
@@ -60,53 +69,51 @@ public class Util
 
 
     }
-  public  static float DisplayWorldCorners(RectTransform rt,CornerRectangle corner)
+    public static float DisplayWorldCorners(RectTransform rt, CornerRectangle corner)
     {
         Vector3[] v = new Vector3[4];
         rt.GetWorldCorners(v);
 
-        switch (corner) { 
-        case CornerRectangle.left:
-                return v[0].x;
+        switch (corner)
+        {
+            case CornerRectangle.left:
+                return v[0].x + rt.sizeDelta.x;
             case CornerRectangle.bottom:
                 return v[1].y - rt.sizeDelta.y;
             case CornerRectangle.top:
-             return   Screen.height - (v[3].y + rt.sizeDelta.y);// top
-
-
-
-
+                return Screen.height - (v[3].y + rt.sizeDelta.y);// top
+            case CornerRectangle.right:
+                return v[2].x + rt.sizeDelta.x;
 
         }
-        Debug.Log("World Corners");
-        for (var i = 0; i < 4; i++)
-        {
-            Debug.Log("World Corner " + i + " : " + v[i]);
-        }
+
         return 0;
     }
     internal static float getAbsoluteLeft(Component v)
     {
-        return 1.0f;
+        return DisplayWorldCorners((RectTransform)v, CornerRectangle.left);
     }
 
     internal static float getAbsoluteRight(Component v)
     {
-        return 1.0f;
+        return DisplayWorldCorners((RectTransform)v, CornerRectangle.right);
+
     }
 
     internal static float getAbsoluteTop(Component v)
     {
-        return 1.0f;
+        return DisplayWorldCorners((RectTransform)v, CornerRectangle.top);
+
     }
 
     internal static float getAbsoluteBottom(Component v)
     {
-        return 1.0f;
+        return DisplayWorldCorners((RectTransform)v, CornerRectangle.bottom);
+
     }
 
     internal static string getBackground(Component v)
     {
-        return "rouge";
+        return "";
     }
 }

@@ -157,82 +157,22 @@ public class Probe : MonoBehaviour
             get { return this._children.Count; }
         }
 
-        /*
-         * 
-         * 
-         * var tree = new TreeNode("Root")
-               {
-                   new TreeNode("Category 1")
-                       {
-                           new TreeNode("Item 1"),
-                           new TreeNode("Item 2"),
-                           new TreeNode("Item 3"),
-                       },
-                   new TreeNode("Category 2")
-                       {
-                           new TreeNode("Item 1"),
-                           new TreeNode("Item 2"),
-                           new TreeNode("Item 3"),
-                           new TreeNode("Item 4"),
-                       }
-               };
-               */
+
     }
 
-    class Viewl : Transform
-    {
-
-        public Transform _child;
-
-        Transform _parent;
 
 
-
-        List<Transform> lstTransform = new List<Transform>();
-
-        Boolean canvasRoot = false;
-
-
-        public void AddTransform(Transform t)
-        {
-
-
-            T.Add(t);
-        }
-        public List<Transform> T
-        {
-            get
-            {
-                return lstTransform;
-            }
-
-            set
-            {
-                lstTransform.AddRange(value);
-            }
-        }
-
-        public bool CanvasRoot
-        {
-            get
-            {
-                return canvasRoot;
-            }
-
-            set
-            {
-                canvasRoot = value;
-            }
-        }
-    }
-
-  public  void start()
+    public void start()
     {
 
         Canvas[] canvas = FindObjectsOfType(typeof(Canvas)) as Canvas[];
-        //   View v = new View();
 
-        // GameObject g = new GameObject();
+        if (canvas.Length <= 0)
+        {
+            Debug.Log("Aucun Element d' UI trouvé");
+            return;
+        }
+
 
         View v = new View(null);
         foreach (Canvas c1 in canvas)
@@ -261,16 +201,16 @@ public class Probe : MonoBehaviour
         // number
         // resultJson.AddField("element", "window");
 
-
+        Canvas cCurent = v._children[0].gCurrent.GetComponent<Canvas>();
         resultJson.AddField("element", "window");
-        resultJson.AddField("aspect-ratio", Config.getAspectRatio(Vector2.zero).x);
-        resultJson.AddField("orientation", "");
-        resultJson.AddField("width", "");
-        resultJson.AddField("height", "");
-        resultJson.AddField("device-width", "");
-        resultJson.AddField("device-height", "");
+        resultJson.AddField("aspect-ratio", Util.getApsectRatio());
+        resultJson.AddField("orientation", Util.getScreenOrientation());
+        resultJson.AddField("width", Util.getCanvasWH(cCurent).x);
+        resultJson.AddField("height", Util.getCanvasWH(cCurent).y);
+        resultJson.AddField("device-width", Util.getDeviceWH().x);
+        resultJson.AddField("device-height", Util.getDeviceWH().y);
         resultJson.AddField("url", "");
-        resultJson.AddField("device-langue", "");
+        resultJson.AddField("device-langue", Util.getLangueApp());
         JSONObject arr = new JSONObject(JSONObject.Type.ARRAY);
 
         resultJson.AddField("children", arr);
@@ -309,7 +249,7 @@ public class Probe : MonoBehaviour
 
 
     }
-   public enum MotionEvent
+    public enum MotionEvent
     {
 
         leftclick, rightclick, middle, non
@@ -379,7 +319,7 @@ public class Probe : MonoBehaviour
 
         JSONObject jNode = new JSONObject(JSONObject.Type.OBJECT);
 
-  
+
 
         jArray.Add(jNode);
 
@@ -411,19 +351,19 @@ public class Probe : MonoBehaviour
             }
             else
             {
-               
+
                 foreach (var component in t.GetComponents<Component>())
                 {
                     if (canIncludeThisView(jNodeChild, component))
                     {
                         //  level = level + 1;
                         jNodeChild.AddField("communt", t.GetComponents<Component>()[0].name.ToString());
-                   
+
                         addAttributeIfDefined(jNodeChild, component, evt);
                         jArrayChild.Add(jNodeChild);
                     }
                     break;
-                    Debug.Log("trasform-Parent: " + t.name + " Component: " + component.name + " level: " + level);
+                    // Debug.Log("trasform-Parent: " + t.name + " Component: " + component.name + " level: " + level);
                 }
             }
 
@@ -525,5 +465,24 @@ public class Probe : MonoBehaviour
           Debug.Log(j.ToString());
 
           //string encodedString = j.print();*/
-
+/*
+      * 
+      * 
+      * var tree = new TreeNode("Root")
+            {
+                new TreeNode("Category 1")
+                    {
+                        new TreeNode("Item 1"),
+                        new TreeNode("Item 2"),
+                        new TreeNode("Item 3"),
+                    },
+                new TreeNode("Category 2")
+                    {
+                        new TreeNode("Item 1"),
+                        new TreeNode("Item 2"),
+                        new TreeNode("Item 3"),
+                        new TreeNode("Item 4"),
+                    }
+            };
+            */
 
