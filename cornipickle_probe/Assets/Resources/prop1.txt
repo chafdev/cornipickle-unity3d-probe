@@ -13,8 +13,8 @@ We say that $x and $y are top-aligned when (
   @description All list items should either be left- or top-aligned.
   @severity Warning
 """
-For each $z in $(Toggle Text) (
-  For each $t in $(Toggle Text) (
+For each $z in $(Text) (
+  For each $t in $(Text) (
     ($z and $t are left-aligned)
     Or
     ($z and $t are top-aligned)

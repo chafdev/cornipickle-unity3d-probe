@@ -39,6 +39,7 @@ public class Probe : MonoBehaviour
    * help to keep all element reference
    */
     Dictionary<int, GameObject> idMap = new Dictionary<int, GameObject>();
+    internal string interpreter;
 
     public List<string> LstAttributes
     {
@@ -217,6 +218,8 @@ public class Probe : MonoBehaviour
 
         //analyseViews(canvas[0].transform,0, arr);
         analyseView(v, 0, arr, MotionEvent.non);
+
+        Config.instance.setRequest(resultJson.ToString());
         Debug.Log(resultJson.ToString());
     }
 
@@ -330,7 +333,7 @@ public class Probe : MonoBehaviour
                 addAttributeIfDefined(jNode, component, evt);
                 break;
             }
-          //  Debug.Log("1 Transform: " + tc.name + " Component: " + component.name + " level: " + level);
+            //  Debug.Log("1 Transform: " + tc.name + " Component: " + component.name + " level: " + level);
         }
         foreach (Transform t in tc)
         {
@@ -357,8 +360,7 @@ public class Probe : MonoBehaviour
                         addAttributeIfDefined(jNodeChild, component, evt);
                         jArrayChild.Add(jNodeChild);
                     }
-          
-                    // Debug.Log("trasform-Parent: " + t.name + " Component: " + component.name + " level: " + level);
+
                 }
             }
 

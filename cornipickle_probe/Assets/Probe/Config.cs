@@ -13,12 +13,12 @@ public class Config : MonoBehaviour
     Probe _probe;
     [SerializeField]
     TextAsset txtProb;
-
-    public void Start()
+    public static Config instance;
+    public void Awake()
     {
 
         Debug.Log(txtProb.text);
-
+        instance = this;
         _rrAdd.set("http://localhost:10101/addMobile", txtProb.text, RequestName.add);
         _rrImage.set("http://localhost:10101/imageMobile/", "", RequestName.image);
 
@@ -27,14 +27,23 @@ public class Config : MonoBehaviour
         StartCoroutine(download());
 
     }
+    public void setRequest(String dt)
+    {
+
+        _rrImage._dataToSend = dt;
+        _rrCurent = _rrImage;
+        StartCoroutine(download());
+    }
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
             Debug.Log("Pressed left click.");
-
         if (Input.GetMouseButtonDown(1))
-            Debug.Log("Pressed right click.");
-
+        {
+            // _rrCurent = _rrImage;
+            //StartCoroutine(download());
+            _probe.start();
+        }
         if (Input.GetMouseButtonDown(2))
             Debug.Log("Pressed middle click.");
 
@@ -60,11 +69,23 @@ public class Config : MonoBehaviour
     {
 
 
-        Debug.Log("OS TYPE is Android" + getChemin());
+        Debug.Log("downloading .. " + getChemin());
+        byte[] myData = null;
+        if (_rrCurent._requestName == RequestName.image)
+        {
+            Debug.Log("je vais");
+                string datas = "contents=" + UrlUtility.UrlEncode(_rrCurent._dataToSend);
+            datas += "&interpreter=" + UrlUtility.UrlEncode(_probe.interpreter);
+            datas += "&id=" + 1;
+            datas += "&hash=" + "hash";
+            myData = System.Text.Encoding.UTF8.GetBytes(datas);
+        }
+        else
 
-        byte[] myData = System.Text.Encoding.UTF8.GetBytes(UrlUtility.UrlPathEncode(_rrCurent._dataToSend));
+        myData = System.Text.Encoding.UTF8.GetBytes(UrlUtility.UrlEncode(_rrCurent._dataToSend));
 
         // Debug.Log(androidFilePath);
+        
         WWW www = new WWW(_rrCurent._url, myData);
 
         yield return www;
@@ -91,20 +112,21 @@ public class Config : MonoBehaviour
                 JSONObject arrTags = jsonObj.GetField("elements");
 
                 String _inter = jsonObj.GetField("interpreter").ToString();
+                _probe.interpreter = _inter;
                 _probe.LstAttributes.Clear();
                 _probe.LstContainer.Clear();
                 foreach (JSONObject j in attrs.list)
                 {
                     _probe.LstAttributes.Add(j.str.ToString());
-                    Debug.Log(j.str.ToString());
+                   // Debug.Log(j.str.ToString());
                 }
                 foreach (JSONObject j in arrTags.list)
                 {
                     _probe.LstContainer.Add(j.str.ToString());
-                    Debug.Log(j.str.ToString());
+                   // Debug.Log(j.str.ToString());
                 }
 
-                _probe.start();
+                //_probe.start();
             }
             else
             {
@@ -113,8 +135,7 @@ public class Config : MonoBehaviour
 
                     String _inter = jsonObj.GetField("global-verdict").str;
                     JSONObject _hightlight = jsonObj.GetField("highlight-ids");//array
-
-
+                    Debug.Log("test" + _inter);
 
                 }
 
@@ -189,7 +210,7 @@ public class Config : MonoBehaviour
         return 1.0f;
     }
 
-    internal static float getAbsoluteBottom( Component v)
+    internal static float getAbsoluteBottom(Component v)
     {
         return 1.0f;
     }
