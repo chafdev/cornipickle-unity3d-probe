@@ -74,7 +74,7 @@ public class Config : MonoBehaviour
         if (_rrCurent._requestName == RequestName.image)
         {
             Debug.Log("je vais");
-                string datas = "contents=" + UrlUtility.UrlEncode(_rrCurent._dataToSend);
+            string datas = "contents=" + UrlUtility.UrlEncode(_rrCurent._dataToSend);
             datas += "&interpreter=" + UrlUtility.UrlEncode(_probe.interpreter);
             datas += "&id=" + 1;
             datas += "&hash=" + "hash";
@@ -82,10 +82,10 @@ public class Config : MonoBehaviour
         }
         else
 
-        myData = System.Text.Encoding.UTF8.GetBytes(UrlUtility.UrlEncode(_rrCurent._dataToSend));
+            myData = System.Text.Encoding.UTF8.GetBytes(UrlUtility.UrlEncode(_rrCurent._dataToSend));
 
         // Debug.Log(androidFilePath);
-        
+
         WWW www = new WWW(_rrCurent._url, myData);
 
         yield return www;
@@ -118,12 +118,12 @@ public class Config : MonoBehaviour
                 foreach (JSONObject j in attrs.list)
                 {
                     _probe.LstAttributes.Add(j.str.ToString());
-                   // Debug.Log(j.str.ToString());
+                    // Debug.Log(j.str.ToString());
                 }
                 foreach (JSONObject j in arrTags.list)
                 {
                     _probe.LstContainer.Add(j.str.ToString());
-                   // Debug.Log(j.str.ToString());
+                    // Debug.Log(j.str.ToString());
                 }
 
                 //_probe.start();
@@ -135,16 +135,49 @@ public class Config : MonoBehaviour
 
                     String _inter = jsonObj.GetField("global-verdict").str;
                     JSONObject _hightlight = jsonObj.GetField("highlight-ids");//array
-                    Debug.Log("test" + _inter);
+                    Debug.Log("test" + _inter + " " + _hightlight.list.Count);
+
+
+                    // Highlight elements, if any
+                    for (int j = 0; j < _hightlight.list.Count; j++)
+                    {
+
+                        JSONObject set_of_tuples1 = (JSONObject)_hightlight[j];
+                        List<JSONObject> ids = set_of_tuples1.GetField("ids").list;
+
+                        String jlink = set_of_tuples1.GetField("link").ToString();
+
+                        Debug.Log("ids " + ids.Count);
+
+                        for (int z = 0; z < ids.Count; z++)
+                        {
+                            List<JSONObject> js2 = ids[z].list;
+                            String st = js2[0].ToString();
+                            int key1 = Convert.ToInt32(js2[0].ToString());
+                            if (_probe.idMap.ContainsKey(key1))
+                            {
+
+                                print("Key1" + key1 + " " + _probe.idMap[key1]);
+                            }
+                            int key2 = Convert.ToInt32(js2[1].ToString());
+                            if (_probe.idMap.ContainsKey(key2))
+                            {
+
+                                print("Key2" + key2 + " " + _probe.idMap[key2]);
+                            }
+
+
+                        }
+                    }
+
+
+
 
                 }
-
             }
         }
-
-
-
     }
+
 
     private string getChemin()
     {

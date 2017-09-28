@@ -38,7 +38,7 @@ public class Probe : MonoBehaviour
     /**
    * help to keep all element reference
    */
-    Dictionary<int, GameObject> idMap = new Dictionary<int, GameObject>();
+    public Dictionary<int, GameObject> idMap = new Dictionary<int, GameObject>();
     internal string interpreter;
 
     public List<string> LstAttributes
@@ -329,7 +329,7 @@ public class Probe : MonoBehaviour
         {
             if (canIncludeThisView(jNode, component))
             {
-                jNode.AddField("name", tc.GetComponents<Component>()[0].name.ToString());
+                jNode.AddField("name", component.name.ToString());
                 addAttributeIfDefined(jNode, component, evt);
                 break;
             }
@@ -356,7 +356,7 @@ public class Probe : MonoBehaviour
                     if (canIncludeThisView(jNodeChild, component))
                     {
                         //  level = level + 1;
-                        jNodeChild.AddField("communt", t.GetComponents<Component>()[0].name.ToString());
+                        jNodeChild.AddField("communt", component.name.ToString());
                         addAttributeIfDefined(jNodeChild, component, evt);
                         jArrayChild.Add(jNodeChild);
                     }
