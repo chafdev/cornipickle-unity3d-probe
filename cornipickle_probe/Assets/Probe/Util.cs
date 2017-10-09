@@ -71,26 +71,44 @@ public class Util
 
 
     }
-    public static float DisplayWorldCorners(RectTransform rt, CornerRectangle corner)
+    /// <summary>
+    ///      Vector3[] corners = new Vector3[4];
+   // rt.GetWorldCorners(corners);
+    //        Rect newRect = new Rect(corners[0], corners[2] - corners[0]);
+    /// </summary>
+    /// <param name="rt"></param>
+    /// <param name="corner"></param>
+    /// <returns></returns>
+    public static int DisplayWorldCorners(RectTransform rt, CornerRectangle corner)
     {
         Vector3[] v = new Vector3[4];
         rt.GetWorldCorners(v);
 
         switch (corner)
         {
-            case CornerRectangle.left:
-                return v[0].x + rt.sizeDelta.x;
+           /* case CornerRectangle.left:
+                return v[0].x;
             case CornerRectangle.bottom:
                 return v[1].y - rt.sizeDelta.y;
             case CornerRectangle.top:
-                return Screen.height - (v[3].y + rt.sizeDelta.y);// top
+                return System.Convert (v[2] - v[0]);// top
             case CornerRectangle.right:
-                return v[2].x + rt.sizeDelta.x;
+                return v[2].x + rt.sizeDelta.x;*/
+                /*
+                case CornerRectangle.left:
+                    return v[0].x + rt.sizeDelta.x;
+                case CornerRectangle.bottom:
+                    return v[1].y - rt.sizeDelta.y;
+                case CornerRectangle.top:
+                    return Screen.height - (v[3].y + rt.sizeDelta.y);// top
+                case CornerRectangle.right:
+                    return v[2].x + rt.sizeDelta.x;*/
 
         }
 
         return 0;
     }
+ 
     internal static float getAbsoluteLeft(Component v)
     {
         if (v is RectTransform)

@@ -91,7 +91,7 @@ public class Probe : MonoBehaviour
         }
 
     }
-   public class View : IEnumerable<View>, IComparable<View>, IEquatable<View>
+    public class View : IEnumerable<View>, IComparable<View>, IEquatable<View>
     {
         public List<View> _children =
                                             new List<View>();
@@ -162,23 +162,56 @@ public class Probe : MonoBehaviour
     }
 
     public View vCurent;
+    class CanvasLevel : IComparable<CanvasLevel>
+    {
+        public CanvasLevel(Canvas canvas)
+        {
+            this.canvas = canvas;
+            this.level = getLevel(canvas.transform, 0);
+        }
+        public int getLevel(Transform t, int n)
+        {
+            // Debug.Log(t.name + t.parent + " " +n + t.root);
+            if (t.parent != null)
+            {
+                return getLevel(t.parent, n + 1);
+            }
+            else return n;
+        }
 
+        public int CompareTo(CanvasLevel other)
+        {
+            return this.level.CompareTo(other.level);
+        }
+
+        public Canvas canvas;
+        public int level;
+    }
+
+    List<CanvasLevel> lstCanvasByLevel = new List<CanvasLevel>();
     public void start()
     {
 
         Canvas[] canvas = FindObjectsOfType(typeof(Canvas)) as Canvas[];
+
 
         if (canvas.Length <= 0)
         {
             Debug.Log("Aucun Element d' UI trouvé");
             return;
         }
-
-
-        View v = new View(null);
+        lstCanvasByLevel.Clear();
         foreach (Canvas c1 in canvas)
         {
-            AddCanvas(c1);
+            lstCanvasByLevel.Add(new CanvasLevel(c1));
+        }
+        lstCanvasByLevel.Sort();
+
+        View v = new View(null);
+        foreach (CanvasLevel c1 in lstCanvasByLevel)
+        {
+
+            AddCanvas(c1.canvas);
             // print(c1.transform;
 
 
@@ -195,8 +228,6 @@ public class Probe : MonoBehaviour
         if (canvas.Length > 0)
 
             print(canvas[0].gameObject.name);
-
-
 
         JSONObject resultJson = new JSONObject(JSONObject.Type.OBJECT);
         // number
@@ -241,12 +272,12 @@ public class Probe : MonoBehaviour
         {
 
             analyseViews(t.gCurrent.transform, 1, jArray, evt);
-            /* foreach (View v in t._children)
-             {
-                 JSONObject jNodeChild = new JSONObject(JSONObject.Type.OBJECT);
-                 jNodeChild.AddField("children", jArray);
-                 analyseView(v,1, jArray);
-                     }*/
+            foreach (View v in t._children)
+            {
+                JSONObject jNodeChild = new JSONObject(JSONObject.Type.OBJECT);
+                jNodeChild.AddField("children", jArray);
+                analyseView(v, 1, jArray, evt);
+            }
         }
 
 
@@ -274,7 +305,7 @@ public class Probe : MonoBehaviour
 
                 try
                 {
-                    jNodeChild.AddField("element","go_"+ t.gameObject.name);
+                    jNodeChild.AddField("element", "go_" + t.gameObject.name);
 
                 }
                 catch (JSONException e)
@@ -345,7 +376,7 @@ public class Probe : MonoBehaviour
         {
             if (canIncludeThisView(jNode, component))
             {
-               // jNode.AddField("name", component.name.ToString());
+                // jNode.AddField("name", component.name.ToString());
                 addAttributeIfDefined(jNode, component, evt);
                 break;
             }
@@ -372,7 +403,7 @@ public class Probe : MonoBehaviour
                     if (canIncludeThisView(jNodeChild, component))
                     {
                         //  level = level + 1;
-                      //  jNodeChild.AddField("name", component.name.ToString());
+                        //  jNodeChild.AddField("name", component.name.ToString());
                         addAttributeIfDefined(jNodeChild, component, evt);
                         jArrayChild.Add(jNodeChild);
                     }
