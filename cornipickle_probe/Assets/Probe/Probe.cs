@@ -91,7 +91,7 @@ public class Probe : MonoBehaviour
         }
 
     }
-    class View : IEnumerable<View>, IComparable<View>, IEquatable<View>
+   public class View : IEnumerable<View>, IComparable<View>, IEquatable<View>
     {
         public List<View> _children =
                                             new List<View>();
@@ -101,7 +101,7 @@ public class Probe : MonoBehaviour
             get { return gCurrent.GetInstanceID(); }
         }
 
-        public readonly GameObject gCurrent;
+        public GameObject gCurrent;
 
         public View Parent { get; private set; }
         public View()
@@ -128,7 +128,7 @@ public class Probe : MonoBehaviour
             {
                 item.Parent._children.Remove(item);
             }
-
+            this.gCurrent = item.gCurrent;
             item.Parent = this;
             this._children.Add(item);
         }
@@ -161,7 +161,7 @@ public class Probe : MonoBehaviour
 
     }
 
-
+    public View vCurent;
 
     public void start()
     {
@@ -190,7 +190,7 @@ public class Probe : MonoBehaviour
             v.Add(new View(c1.gameObject));
 
         }
-
+        vCurent = v;
         // canvas[0].transform.root
         if (canvas.Length > 0)
 
@@ -265,9 +265,25 @@ public class Probe : MonoBehaviour
 
 
         int id = t.GetInstanceID();
+
         String _element = t.GetType().Name;
         foreach (String s in lstContainer)
         {
+            if (s.ToLower().StartsWith("go_") && s.ToLower().Equals("go_" + t.gameObject.name.ToLower()))
+            {
+
+                try
+                {
+                    jNodeChild.AddField("element","go_"+ t.gameObject.name);
+
+                }
+                catch (JSONException e)
+                {
+
+                }
+                return true;
+
+            }
 
             if (s.ToLower().Equals(_element.ToLower()))
             {
@@ -329,7 +345,7 @@ public class Probe : MonoBehaviour
         {
             if (canIncludeThisView(jNode, component))
             {
-                jNode.AddField("name", component.name.ToString());
+               // jNode.AddField("name", component.name.ToString());
                 addAttributeIfDefined(jNode, component, evt);
                 break;
             }
@@ -356,7 +372,7 @@ public class Probe : MonoBehaviour
                     if (canIncludeThisView(jNodeChild, component))
                     {
                         //  level = level + 1;
-                        jNodeChild.AddField("communt", component.name.ToString());
+                      //  jNodeChild.AddField("name", component.name.ToString());
                         addAttributeIfDefined(jNodeChild, component, evt);
                         jArrayChild.Add(jNodeChild);
                     }

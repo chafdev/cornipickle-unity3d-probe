@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Config : MonoBehaviour
 {
@@ -10,10 +11,56 @@ public class Config : MonoBehaviour
     RequestResponse _rrImage = new RequestResponse();
     RequestResponse _rrCurent = new RequestResponse();
     [SerializeField]
+    GameObject __hprobe;
+    [SerializeField]
+    GameObject _response;
+    [SerializeField]
+    GameObject _responseI;
+    [SerializeField]
     Probe _probe;
     [SerializeField]
     TextAsset txtProb;
+    [SerializeField]
+    PosLayoutResult posLayoutResponse = PosLayoutResult.left_top;
     public static Config instance;
+    enum PosLayoutResult
+    {
+        right_top,
+        right_bottom,
+        left_top,
+        left_bottom
+    }
+    Vector2 setPosLayoutResult(PosLayoutResult pos)
+    {
+        String p = pos.ToString();
+        switch (p)
+        {
+            case "right_top":
+                {
+                    return new Vector2(Screen.width - 25, -25);
+                }
+
+            case "right_Bottom":
+                {
+                    return new Vector2(Screen.width - 25, 25 - Screen.height);
+                }
+
+            case "left_top":
+                {
+                    return new Vector2(25, -25);
+                }
+
+            case "left_Bottom":
+                {
+                    return new Vector2(25, 25 - Screen.height);
+                }
+            default:
+                {
+                    return new Vector2(25, -25);
+                }
+
+        }
+    }
     public void Awake()
     {
 
@@ -133,9 +180,26 @@ public class Config : MonoBehaviour
                 if (www.text != "")
                 {
 
-                    String _inter = jsonObj.GetField("global-verdict").str;
+                    String _result = jsonObj.GetField("global-verdict").str;
                     JSONObject _hightlight = jsonObj.GetField("highlight-ids");//array
-                    Debug.Log("test" + _inter + " " + _hightlight.list.Count);
+                    Debug.Log("test" + _result + " " + _hightlight.list.Count);
+                  
+                    if (_responseI == null)
+                    {
+                        _responseI = Instantiate(_response);
+                        _responseI.transform.SetParent(_probe.vCurent.gCurrent.transform);
+                        _responseI.transform.localScale = Vector3.one;
+                        _responseI.GetComponent<RectTransform>().sizeDelta = new Vector2(25, 25);
+                    }
+                    _responseI.GetComponent<RectTransform>().anchoredPosition = setPosLayoutResult(posLayoutResponse);
+                    if (_result.ToLower().Equals("true"))
+                    {
+                        _responseI.GetComponent<Image>().color = Color.green;
+                    }
+                    else
+                    {
+                        _responseI.GetComponent<Image>().color = Color.red;
+                    }
 
 
                     // Highlight elements, if any
@@ -156,12 +220,28 @@ public class Config : MonoBehaviour
                             int key1 = Convert.ToInt32(js2[0].ToString());
                             if (_probe.idMap.ContainsKey(key1))
                             {
-
-                                print("Key1" + key1 + " " + _probe.idMap[key1]);
+                                if (!_probe.idMap[key1].transform.FindChild(__hprobe.name))
+                                {
+                                    GameObject g = Instantiate(__hprobe);
+                                    g.transform.name = __hprobe.name;
+                                    g.transform.SetParent(_probe.idMap[key1].transform);
+                                    g.GetComponent<RectTransform>().sizeDelta = _probe.idMap[key1].GetComponent<RectTransform>().sizeDelta;
+                                    g.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                                    print("Key1" + key1 + " " + _probe.idMap[key1]);
+                                }
                             }
                             int key2 = Convert.ToInt32(js2[1].ToString());
                             if (_probe.idMap.ContainsKey(key2))
                             {
+                                if (!_probe.idMap[key2].transform.FindChild(__hprobe.name))
+                                {
+                                    GameObject g = Instantiate(__hprobe);
+                                    g.transform.name = __hprobe.name;
+                                    g.transform.SetParent(_probe.idMap[key2].transform);
+                                    g.GetComponent<RectTransform>().sizeDelta = _probe.idMap[key2].GetComponent<RectTransform>().sizeDelta;
+                                    g.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+
+                                }
 
                                 print("Key2" + key2 + " " + _probe.idMap[key2]);
                             }
