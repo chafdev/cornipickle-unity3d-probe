@@ -38,6 +38,7 @@ public class Probe : MonoBehaviour
     /**
    * help to keep all element reference
    */
+   [SerializeField]
     public Dictionary<int, GameObject> idMap = new Dictionary<int, GameObject>();
     internal string interpreter;
 
@@ -168,6 +169,7 @@ public class Probe : MonoBehaviour
         {
             this.canvas = canvas;
             this.level = getLevel(canvas.transform, 0);
+        //    Debug.Log(canvas.name + "level" + level);
         }
         public int getLevel(Transform t, int n)
         {
@@ -191,16 +193,20 @@ public class Probe : MonoBehaviour
     List<CanvasLevel> lstCanvasByLevel = new List<CanvasLevel>();
     public void start()
     {
+        cornipickleid = 0;
+        idMap.Clear();
+        _lstCanvasFiletred.Clear();
+        lstCanvasByLevel.Clear();
 
         Canvas[] canvas = FindObjectsOfType(typeof(Canvas)) as Canvas[];
-
+      
 
         if (canvas.Length <= 0)
         {
             Debug.Log("Aucun Element d' UI trouvé");
             return;
         }
-        lstCanvasByLevel.Clear();
+   
         foreach (Canvas c1 in canvas)
         {
             lstCanvasByLevel.Add(new CanvasLevel(c1));
@@ -210,7 +216,7 @@ public class Probe : MonoBehaviour
         View v = new View(null);
         foreach (CanvasLevel c1 in lstCanvasByLevel)
         {
-
+          //  print(c1.canvas.name);
             AddCanvas(c1.canvas);
             // print(c1.transform;
 
@@ -223,11 +229,11 @@ public class Probe : MonoBehaviour
             v.Add(new View(c1.gameObject));
 
         }
-        vCurent = v;
+        vCurent = new View(lstCanvasByLevel[0].canvas.gameObject);
         // canvas[0].transform.root
-        if (canvas.Length > 0)
+        //if (canvas.Length > 0)
 
-            print(canvas[0].gameObject.name);
+        //  print(canvas[0].gameObject.name);
 
         JSONObject resultJson = new JSONObject(JSONObject.Type.OBJECT);
         // number
@@ -286,14 +292,13 @@ public class Probe : MonoBehaviour
     public enum MotionEvent
     {
 
-        leftclick, rightclick, middle, non
+     down,up , leftclick, rightclick, middle, non
     }
 
 
 
     public bool canIncludeThisView(JSONObject jNodeChild, Component t)
     {
-
 
         int id = t.GetInstanceID();
 
@@ -341,6 +346,15 @@ public class Probe : MonoBehaviour
                 }
                 return true;
             }
+           /* if (isAttributeExists("id"))
+                if (v.GetComponent<CustomFields>() != null)
+                {
+                    if (v.GetComponent<CustomFields>().Id != "")
+                    {
+
+                        jNodeChild.AddField("id", v.GetComponent<CustomFields>().Id);
+                    }
+                }*/
 
             if (s.StartsWith("#") && t.GetComponent<CustomFields>() != null && (t.GetComponent<CustomFields>().Id.Substring(1)) == s)
             {
@@ -372,16 +386,19 @@ public class Probe : MonoBehaviour
         JSONObject jArrayChild = new JSONObject(JSONObject.Type.ARRAY);
 
         //  Debug.Log(tc.name + " Level " + level);
-        foreach (var component in tc.GetComponents<Component>())
-        {
-            if (canIncludeThisView(jNode, component))
+        if (!tc.GetComponent<Liflab>())
+
+            foreach (var component in tc.GetComponents<Component>())
             {
-                // jNode.AddField("name", component.name.ToString());
-                addAttributeIfDefined(jNode, component, evt);
-                break;
+
+                if (canIncludeThisView(jNode, component))
+                {
+                    // jNode.AddField("name", component.name.ToString());
+                    addAttributeIfDefined(jNode, component, evt);
+                    break;
+                }
+                //  Debug.Log("1 Transform: " + tc.name + " Component: " + component.name + " level: " + level);
             }
-            //  Debug.Log("1 Transform: " + tc.name + " Component: " + component.name + " level: " + level);
-        }
         foreach (Transform t in tc)
         {
 
@@ -397,18 +414,19 @@ public class Probe : MonoBehaviour
             }
             else
             {
-
-                foreach (var component in t.GetComponents<Component>())
-                {
-                    if (canIncludeThisView(jNodeChild, component))
+                if (!t.GetComponent<Liflab>())
+                    foreach (var component in t.GetComponents<Component>())
                     {
-                        //  level = level + 1;
-                        //  jNodeChild.AddField("name", component.name.ToString());
-                        addAttributeIfDefined(jNodeChild, component, evt);
-                        jArrayChild.Add(jNodeChild);
-                    }
+                        if (canIncludeThisView(jNodeChild, component))
+                        {
+                            //  level = level + 1;
+                            //  jNodeChild.AddField("name", component.name.ToString());
+                            addAttributeIfDefined(jNodeChild, component, evt);
+                            jArrayChild.Add(jNodeChild);
+                            break;
+                        }
 
-                }
+                    }
             }
 
 
@@ -427,19 +445,14 @@ public class Probe : MonoBehaviour
         cornipickleid = cornipickleid + 1;
         jNodeChild.AddField("cornipickleid", cornipickleid);
         idMap.Add(cornipickleid, v.gameObject);
-        if (isAttributeExists("id"))
-            if (v.GetComponent<CustomFields>() != null)
-            {
-                if (v.GetComponent<CustomFields>().Id != "")
-                {
-
-                    jNodeChild.AddField("id", v.GetComponent<CustomFields>().Id);
-                }
-            }
+ 
         RectTransform rt = v.gameObject.GetComponent<RectTransform>();
         if (rt)
         {
-
+            if (isAttributeExists("id"))
+                jNodeChild.AddField("id", v.GetInstanceID().ToString());
+            if (isAttributeExists("name"))
+                jNodeChild.AddField("name", v.gameObject.name);
             if (isAttributeExists("width"))
                 jNodeChild.AddField("width", rt.sizeDelta.x);
 
@@ -465,8 +478,14 @@ public class Probe : MonoBehaviour
             }
             if (isAttributeExists("event"))
             {
+             
+                if (RectTransformUtility.RectangleContainsScreenPoint(rt, Input.mousePosition))
 
-                jNodeChild.AddField("event", evt.ToString());
+
+                    jNodeChild.AddField("event", "click");
+                else {
+                    jNodeChild.AddField("event", "none");
+                }
             }
         }
         if (isAttributeExists("parent"))
