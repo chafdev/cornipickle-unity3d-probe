@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Probe : MonoBehaviour
 {
@@ -209,7 +210,13 @@ public class Probe : MonoBehaviour
    
         foreach (Canvas c1 in canvas)
         {
+            if(c1.tag!="liflab")
             lstCanvasByLevel.Add(new CanvasLevel(c1));
+        }
+        if (lstCanvasByLevel.Count <= 0)
+        {
+            Debug.Log("Aucun Element d' UI trouvé");
+            return;
         }
         lstCanvasByLevel.Sort();
 
@@ -474,6 +481,13 @@ public class Probe : MonoBehaviour
             {
 
                 jNodeChild.AddField("background", Util.getBackground(v));
+
+            }
+            if (isAttributeExists("text"))
+            {
+                if(v is Text)
+
+                jNodeChild.AddField("text",((Text)v).text);
 
             }
             if (isAttributeExists("event"))

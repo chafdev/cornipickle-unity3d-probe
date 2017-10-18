@@ -4,7 +4,7 @@
 
 We say that I click on Go when (
   There exists $b in $(Button) such that (
-  	($b's name is "Go")
+  	($b's name is "ResumeButton")
   	And
   	($b's event is "click")
   )

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Config : MonoBehaviour
@@ -25,12 +26,10 @@ public class Config : MonoBehaviour
     TextAsset txtProb;
     [SerializeField]
     PosLayoutResult posLayoutResponse = PosLayoutResult.left_top;
-
     List<GameObject> lstCadre = new List<GameObject>();
+    public GameObject canvasProbe;
+    GameObject canvasProbeCurrent;
     public static Config instance;
-
-  
-
     enum PosLayoutResult
     {
         right_top,
@@ -41,6 +40,7 @@ public class Config : MonoBehaviour
     Vector2 setPosLayoutResult(PosLayoutResult pos)
     {
         String p = pos.ToString();
+    
         switch (p)
         {
             case "right_top":
@@ -48,7 +48,7 @@ public class Config : MonoBehaviour
                     return new Vector2(Screen.width - 25, -25);
                 }
 
-            case "right_Bottom":
+            case "right_bottom":
                 {
                     return new Vector2(Screen.width - 25, 25 - Screen.height);
                 }
@@ -58,7 +58,7 @@ public class Config : MonoBehaviour
                     return new Vector2(25, -25);
                 }
 
-            case "left_Bottom":
+            case "left_bottom":
                 {
                     return new Vector2(25, 25 - Screen.height);
                 }
@@ -66,25 +66,26 @@ public class Config : MonoBehaviour
                 {
                     return new Vector2(25, -25);
                 }
-
         }
     }
+    [SerializeField]
+    String nameProp;
     public void Awake()
     {
-
-        Debug.Log(txtProb.text);
-        instance = this;
-        _rrAdd.set("http://localhost:10101/addMobile", txtProb.text, RequestName.add);
+        canvasProbeCurrent = Instantiate(canvasProbe);
+        instance = this;    
         _rrImage.set("http://localhost:10101/imageMobile/", "", RequestName.image);
+        loadProperties(nameProp);
 
-        // data = sb;
+    }
+    public void loadProperties(String namep) {
+        txtProb = Resources.Load("props/" + namep,typeof(TextAsset)) as TextAsset;
+        _rrAdd.set("http://localhost:10101/addMobile", txtProb.text, RequestName.add);
         _rrCurent = _rrAdd;
         StartCoroutine(download());
-
     }
     public void setRequest(String dt)
     {
-
         _rrImage._dataToSend = dt;
         _rrCurent = _rrImage;
         StartCoroutine(download());
@@ -107,7 +108,9 @@ public class Config : MonoBehaviour
             if (OnKeyForReset != null)
                 OnKeyForReset();
         }
-      
+        if (Input.GetKeyDown(KeyCode.X))
+            SceneManager.LoadScene(0);
+
     }
 
     public static Vector2 getAspectRatio(Vector2 xy)
@@ -129,8 +132,6 @@ public class Config : MonoBehaviour
     }
     public IEnumerator download()
     {
-
-
         Debug.Log("downloading .. " + getChemin());
         byte[] myData = null;
         if (_rrCurent._requestName == RequestName.image)
@@ -159,7 +160,7 @@ public class Config : MonoBehaviour
         if (www.isDone)
         {
             //Debug.Log(www.bytesDownloaded);
-         //   Debug.Log(www.text.ToString());
+            //   Debug.Log(www.text.ToString());
             // System.IO.File.WriteAllBytes(getChemin(), www.bytes);
             // startToload();
             //  string realPath = Application.persistentDataPath + name;
@@ -180,12 +181,12 @@ public class Config : MonoBehaviour
                 foreach (JSONObject j in attrs.list)
                 {
                     _probe.LstAttributes.Add(j.str.ToString());
-                    // Debug.Log(j.str.ToString());
+                    Debug.Log(j.str.ToString());
                 }
                 foreach (JSONObject j in arrTags.list)
                 {
                     _probe.LstContainer.Add(j.str.ToString());
-                    // Debug.Log(j.str.ToString());
+                    Debug.Log(j.str.ToString());
                 }
 
                 //_probe.start();
@@ -198,13 +199,14 @@ public class Config : MonoBehaviour
                     String _result = jsonObj.GetField("global-verdict").str;
                     JSONObject _hightlight = jsonObj.GetField("highlight-ids");//array
                     Debug.Log("test" + _result + " " + _hightlight + " ");
-                 /*   foreach (int i in _probe.idMap.Keys)
-                        Debug.Log(i);*/
-                  
+                    /*   foreach (int i in _probe.idMap.Keys)
+                           Debug.Log(i);*/
+
                     if (_responseI == null)
                     {
                         _responseI = Instantiate(_response);
-                        _responseI.transform.SetParent(_probe.vCurent.gCurrent.transform);
+                        //_responseI.transform.SetParent(_probe.vCurent.gCurrent.transform);
+                        _responseI.transform.SetParent(canvasProbeCurrent.transform);
                         _responseI.transform.localScale = Vector3.one;
                         _responseI.GetComponent<RectTransform>().sizeDelta = new Vector2(25, 25);
                     }
@@ -234,8 +236,8 @@ public class Config : MonoBehaviour
 
                         String jlink = set_of_tuples1.GetField("link").ToString();
 
-                        Debug.Log("ids " + ids.Count + "  "+ _probe.idMap.Count);
-                    
+                        Debug.Log("ids " + ids.Count + "  " + _probe.idMap.Count);
+
 
                         for (int z = 0; z < ids.Count; z++)
                         {

@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Bug : MonoBehaviour
 {
 
     public Vector2 pos;
-     Vector2 posAnc;
+    Vector2 posAnc;
+    public GameObject g;
     RectTransform rect;
+    public string key = "";
     void OnEnable()
     {
 
@@ -18,13 +21,24 @@ public class Bug : MonoBehaviour
     }
     public void setBug()
     {
-        rect.anchoredPosition = pos;
+        if (key == "")
+            rect.anchoredPosition = pos;
+        else if (key == "list")
+        {
+            g.GetComponent<Text>().text = "Element 1";
 
+        }
     }
     public void setReset()
     {
-        rect.anchoredPosition = posAnc;
+        if (key == "")
+            rect.anchoredPosition = posAnc;
+        else if (key == "list")
+        {
+            g.GetComponent<Text>().text = "Element";
 
+
+        }
     }
 
     void OnDisable()

@@ -68,5 +68,8 @@ MonoBehaviour:
   _response: {fileID: 1861682682970692, guid: d5874e82993afd1409b8dc2f944bf25a, type: 2}
   _responseI: {fileID: 0}
   _probe: {fileID: 114469596688710748}
-  txtProb: {fileID: 4900000, guid: dbf49bc6470b8a644a216c5ed4ed12f7, type: 3}
+  txtProb: {fileID: 4900000, guid: 593cca9b354e63540b86ee24e4e6cfa0, type: 3}
   posLayoutResponse: 2
+  canvasProbe: {fileID: 1411470537615140, guid: 316252b41cdc2db4b98328d90d15a6ef,
+    type: 2}
+  nameProp: 

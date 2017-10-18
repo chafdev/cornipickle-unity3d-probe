@@ -59,6 +59,7 @@ MonoBehaviour:
   _probe: {fileID: 114915169554153172}
   txtProb: {fileID: 0}
   posLayoutResponse: 2
+  canvasProbe: {fileID: 0}
 --- !u!114 &114915169554153172
 MonoBehaviour:
   m_ObjectHideFlags: 1
