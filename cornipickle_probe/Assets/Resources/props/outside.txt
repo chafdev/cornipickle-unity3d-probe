@@ -1,15 +1,15 @@
 # x-y coordinates of all elements are relative to window
 We say that $x extends outside $y when (
  (
-  ($x's right is greater than $y's width )
-  Or
-  ($x's left is less than $y's width)
+  ($x's right is greater than 0 )
+  And
+  ($x's left is greater than 0)
  )
- Or
+ And
  (
-  ($x's bottom is greater than $y's height)
+  ($x's left is greater than $y's width)
   Or
-  ($x's top is less than $y's height)
+  ($x's right is less than 0)
  )
 ).
 
@@ -21,6 +21,6 @@ We say that $x extends outside $y when (
 """
 For each $x in $(Text) (
   For each $y in $(window) (
-    $x extends outside $y
+   Not ( $x extends outside $y)
   )
 ).

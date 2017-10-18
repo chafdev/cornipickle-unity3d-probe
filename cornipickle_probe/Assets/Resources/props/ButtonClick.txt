@@ -11,7 +11,7 @@ We say that I click on Go when (
 ).
 
 We say that the textbox is empty when (
-  For each $t in $(#textbox) (
+  For each $t in $(Button Text) (
     $t's text is ""
   )
 ).
