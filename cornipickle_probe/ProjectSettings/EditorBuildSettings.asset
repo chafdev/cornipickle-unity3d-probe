@@ -6,4 +6,23 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_CompletedAssets/Scenes/Level 01 5.x.unity
+    path: Assets/Scenes/menu.unity
+    guid: 29cd55959fb612c4faba911f33aad0b4
+  - enabled: 1
+    path: Assets/Scenes/Misalgned.unity
+    guid: 0ea5ef998af64f74aa526a5f8d833689
+  - enabled: 1
+    path: Assets/Scenes/overlaping.unity
+    guid: 32e0a740b33bd994d99e5f60a87c6c6e
+  - enabled: 1
+    path: Assets/Scenes/outside.unity
+    guid: 442e61abeec4ceb43832fac7792312d8
+  - enabled: 1
+    path: Assets/Scenes/buttonwork.unity
+    guid: 56e9ba2ab5ce1474b8b49ca00ad14366
+  - enabled: 1
+    path: Assets/Scenes/GroupeItem.unity
+    guid: 5c25bea83329af74190ac39adf87eff0
+  - enabled: 1
+    path: Assets/Scenes/ListSort.unity
+    guid: a9d7f25e0ec0e0a43b813d1f7537fefb
