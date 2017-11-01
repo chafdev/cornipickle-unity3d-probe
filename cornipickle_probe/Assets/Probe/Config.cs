@@ -198,7 +198,7 @@ public class Config : MonoBehaviour
 
                     String _result = jsonObj.GetField("global-verdict").str;
                     JSONObject _hightlight = jsonObj.GetField("highlight-ids");//array
-                    Debug.Log("test" + _result + " " + _hightlight + " ");
+                 //   Debug.Log("test" + _result + " " + _hightlight + " ");
                     /*   foreach (int i in _probe.idMap.Keys)
                            Debug.Log(i);*/
 
@@ -236,7 +236,7 @@ public class Config : MonoBehaviour
 
                         String jlink = set_of_tuples1.GetField("link").ToString();
 
-                        Debug.Log("ids " + ids.Count + "  " + _probe.idMap.Count);
+                       // Debug.Log("ids " + ids.Count + "  " + _probe.idMap.Count);
 
 
                         for (int z = 0; z < ids.Count; z++)
@@ -257,7 +257,7 @@ public class Config : MonoBehaviour
                                         g.transform.SetParent(_probe.idMap[key1].transform);
                                         g.GetComponent<RectTransform>().sizeDelta = _probe.idMap[key1].GetComponent<RectTransform>().sizeDelta;
                                         g.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-                                        print("Key1" + key1 + " " + _probe.idMap[key1]);
+                                       // print("Key1" + key1 + " " + _probe.idMap[key1]);
                                         lstCadre.Add(g);
                                     }
                                 }

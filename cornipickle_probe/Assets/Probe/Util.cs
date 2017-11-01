@@ -71,6 +71,14 @@ public class Util
 
 
     }
+
+    public static Vector2 getWH(RectTransform rt)
+    {
+        Vector3[] v = new Vector3[4];
+        rt.GetWorldCorners(v);
+        Rect newRect = new Rect(v[0], v[2] - v[0]);
+        return newRect.size;
+    }
     /// <summary>
     ///      Vector3[] corners = new Vector3[4];
    // rt.GetWorldCorners(corners);
@@ -84,17 +92,18 @@ public class Util
         Vector3[] v = new Vector3[4];
         rt.GetWorldCorners(v);
         Rect newRect = new Rect(v[0], v[2] - v[0]);
+        Debug.Log("rct" + newRect);
         switch (corner)
         {
             case CornerRectangle.left:
-                return (int)v[0].x;
+                return (int)newRect.position.x;
            
             case CornerRectangle.bottom:
-                return (int)v[0].y;// top
+                return (int)newRect.position.y;// top
             case CornerRectangle.top:
-                return (int)(Screen.height- (v[0].y + rt.sizeDelta.y));
+                return (int)(Screen.height- (newRect.position.y + newRect.size.y));
             case CornerRectangle.right:
-                return (int)(Screen.width - (v[0].x+ rt.sizeDelta.x));
+                return (int)(Screen.width - (newRect.position.x+ newRect.size.x));
                 
           /*      case CornerRectangle.left:
                     return v[0].x + rt.sizeDelta.x;

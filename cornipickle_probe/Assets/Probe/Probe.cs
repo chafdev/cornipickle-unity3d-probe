@@ -461,10 +461,10 @@ public class Probe : MonoBehaviour
             if (isAttributeExists("name"))
                 jNodeChild.AddField("name", v.gameObject.name);
             if (isAttributeExists("width"))
-                jNodeChild.AddField("width", rt.sizeDelta.x);
+                jNodeChild.AddField("width", Util.getWH( rt).x);
 
             if (isAttributeExists("height"))
-                jNodeChild.AddField("height", rt.sizeDelta.y);
+                jNodeChild.AddField("height", Util.getWH(rt).y);
 
             //   int i1 = r.nextInt(500 - 20) + 20;
             if (isAttributeExists("left"))
