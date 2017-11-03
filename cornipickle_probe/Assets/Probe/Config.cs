@@ -29,6 +29,8 @@ public class Config : MonoBehaviour
     List<GameObject> lstCadre = new List<GameObject>();
     public GameObject canvasProbe;
     GameObject canvasProbeCurrent;
+    public GameObject gPopup;
+    GameObject gPopupInstance;
     public static Config instance;
     enum PosLayoutResult
     {
@@ -40,7 +42,7 @@ public class Config : MonoBehaviour
     Vector2 setPosLayoutResult(PosLayoutResult pos)
     {
         String p = pos.ToString();
-    
+
         switch (p)
         {
             case "right_top":
@@ -73,13 +75,29 @@ public class Config : MonoBehaviour
     public void Awake()
     {
         canvasProbeCurrent = Instantiate(canvasProbe);
-        instance = this;    
+        instance = this;
         _rrImage.set("http://localhost:10101/imageMobile/", "", RequestName.image);
         loadProperties(nameProp);
 
     }
-    public void loadProperties(String namep) {
-        txtProb = Resources.Load("props/" + namep,typeof(TextAsset)) as TextAsset;
+    void Start()
+    {
+
+
+        if (_responseI == null)
+        {
+            _responseI = Instantiate(_response);
+            //_responseI.transform.SetParent(_probe.vCurent.gCurrent.transform);
+            _responseI.transform.SetParent(canvasProbeCurrent.transform);
+            _responseI.transform.localScale = Vector3.one;
+            _responseI.GetComponent<RectTransform>().sizeDelta = new Vector2(25, 25);
+            _responseI.GetComponent<RectTransform>().anchoredPosition = setPosLayoutResult(posLayoutResponse);
+        }
+    }
+
+    public void loadProperties(String namep)
+    {
+        txtProb = Resources.Load("props/" + namep, typeof(TextAsset)) as TextAsset;
         _rrAdd.set("http://localhost:10101/addMobile", txtProb.text, RequestName.add);
         _rrCurent = _rrAdd;
         StartCoroutine(download());
@@ -111,18 +129,38 @@ public class Config : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
             SceneManager.LoadScene(0);
 
+
     }
+    public void showPopup(Boolean show)
+    {
+
+        if (show)
+        {
+            if (gPopupInstance == null)
+            {
+                gPopupInstance = Instantiate(gPopup);
+      
+                gPopupInstance.transform.SetParent(canvasProbeCurrent.transform);
+                gPopupInstance.transform.localScale = Vector3.one;
+                gPopupInstance.GetComponent<RectTransform>().anchoredPosition = new Vector2(-300 ,-200);
+                gPopupInstance.GetComponent<RectTransform>().sizeDelta= new Vector2(600, 400);
+
+
+
+            }
+            gPopupInstance.GetComponent<DisplayProp>().txt = txtProb;
+
+            gPopupInstance.GetComponent<DisplayProp>().load();
+        }
+        gPopupInstance.SetActive(show);
+    }
+
+
 
     public static Vector2 getAspectRatio(Vector2 xy)
     {
         float f = xy.x / xy.y;
         int i = 0;
-        /*   while (true)
-           {
-               i++;
-               if (System.Math.Round(f * i, 2) == Mathf.RoundToInt(f * i))
-                   break;
-           }*/
         return new Vector2((float)System.Math.Round(f * i, 2), i);
     }
     public enum RequestName
@@ -198,9 +236,9 @@ public class Config : MonoBehaviour
 
                     String _result = jsonObj.GetField("global-verdict").str;
                     JSONObject _hightlight = jsonObj.GetField("highlight-ids");//array
-                 //   Debug.Log("test" + _result + " " + _hightlight + " ");
-                    /*   foreach (int i in _probe.idMap.Keys)
-                           Debug.Log(i);*/
+                                                                               //   Debug.Log("test" + _result + " " + _hightlight + " ");
+                                                                               /*   foreach (int i in _probe.idMap.Keys)
+                                                                                      Debug.Log(i);*/
 
                     if (_responseI == null)
                     {
@@ -236,7 +274,7 @@ public class Config : MonoBehaviour
 
                         String jlink = set_of_tuples1.GetField("link").ToString();
 
-                       // Debug.Log("ids " + ids.Count + "  " + _probe.idMap.Count);
+                        // Debug.Log("ids " + ids.Count + "  " + _probe.idMap.Count);
 
 
                         for (int z = 0; z < ids.Count; z++)
@@ -257,7 +295,7 @@ public class Config : MonoBehaviour
                                         g.transform.SetParent(_probe.idMap[key1].transform);
                                         g.GetComponent<RectTransform>().sizeDelta = _probe.idMap[key1].GetComponent<RectTransform>().sizeDelta;
                                         g.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-                                       // print("Key1" + key1 + " " + _probe.idMap[key1]);
+                                        // print("Key1" + key1 + " " + _probe.idMap[key1]);
                                         lstCadre.Add(g);
                                     }
                                 }
@@ -342,28 +380,5 @@ public class Config : MonoBehaviour
         }
     }
 
-    internal static float getAbsoluteLeft(Component v)
-    {
-        return 1.0f;
-    }
-
-    internal static float getAbsoluteRight(Component v)
-    {
-        return 1.0f;
-    }
-
-    internal static float getAbsoluteTop(Component v)
-    {
-        return 1.0f;
-    }
-
-    internal static float getAbsoluteBottom(Component v)
-    {
-        return 1.0f;
-    }
-
-    internal static String getBackground(Component v)
-    {
-        return "rouge";
-    }
+ 
 }
