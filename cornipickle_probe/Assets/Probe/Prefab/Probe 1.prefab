@@ -72,4 +72,5 @@ MonoBehaviour:
   posLayoutResponse: 2
   canvasProbe: {fileID: 1411470537615140, guid: 316252b41cdc2db4b98328d90d15a6ef,
     type: 2}
+  gPopup: {fileID: 1325027079268944, guid: 9d28bea9c7e95ed4594d06e46f763ba6, type: 2}
   nameProp: 
