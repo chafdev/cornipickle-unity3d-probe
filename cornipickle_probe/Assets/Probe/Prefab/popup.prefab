@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 114627448218351848}
   - component: {fileID: 114305952009330090}
   m_Layer: 5
-  m_Name: Scroll View
+  m_Name: popup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
