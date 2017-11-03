@@ -1,0 +1,11 @@
+"""
+  @name Grouping items
+  @description All TextViews are aligned next to the sliders
+  @link https://material.io/guidelines/usability/accessibility.html#accessibility-style
+  @severity Warning
+"""
+For each $z in $(go_ValueGroup Text) (
+    There exists $x in $(go_SliderGroup Slider) such that (
+        $z's top equals $x's top
+    )
+).

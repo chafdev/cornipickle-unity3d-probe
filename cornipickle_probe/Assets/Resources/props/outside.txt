@@ -1,0 +1,43 @@
+
+We say that $x inside-right $y when (
+  ($x's right is greater than $y's right )
+  And
+  ($x's right is less than $y's width )
+).
+We say that $x inside-left $y when (
+  ($x's left is greater than $y's left )
+  And
+  ($x's left is less than $y's width )
+).
+We say that $x inside-top $y when (
+  ($x's top is greater than $y's top )
+  And
+  ($x's top is less than $y's height )
+).
+We say that $x inside-bottom $y when (
+  ($x's bottom is greater than $y's bottom )
+  And
+  ($x's bottom is less than $y's height )
+).
+We say that $x inside-horizontal $y when (
+  ($x inside-right $y)
+  And
+  ($x inside-left $y)
+).
+We say that $x inside-vertical $y when (
+  ($x inside-top $y)
+  And
+  ($x inside-bottom $y)
+).
+"""
+  @name Outside panel
+  @description item should be inside panel
+  @severity Error
+"""
+For each $x in $(Text) (
+  For each $y in $(go_Panel) (
+   ($x inside-horizontal $y)
+   And
+   ($x inside-vertical $y)
+  )
+).
