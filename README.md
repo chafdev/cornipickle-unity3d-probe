@@ -1,4 +1,4 @@
-A Cornipickle probe for Unity3d Games
+A package, contains cornipickle probe for Unity3d.
 
 Probe: 
 
