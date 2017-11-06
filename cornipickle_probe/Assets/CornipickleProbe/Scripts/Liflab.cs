@@ -12,8 +12,12 @@ public class Liflab : MonoBehaviour
     bool clicked = false;
     void Start()
     {
+
         btn = GetComponent<Button>();
-        btn.onClick.AddListener(() => click());
+        if (btn)
+        {
+            btn.onClick.AddListener(() => click());
+        }
     }
 
     private void click()

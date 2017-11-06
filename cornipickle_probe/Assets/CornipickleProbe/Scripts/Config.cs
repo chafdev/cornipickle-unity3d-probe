@@ -299,7 +299,7 @@ public class Config : MonoBehaviour
                                         GameObject g = Instantiate(__hprobe);
                                         g.transform.name = __hprobe.name;
                                         g.transform.SetParent(_probe.idMap[key1].transform);
-                                        g.GetComponent<RectTransform>().sizeDelta = _probe.idMap[key1].GetComponent<RectTransform>().sizeDelta;
+                                        g.GetComponent<RectTransform>().sizeDelta = Util.getWH(_probe.idMap[key1].GetComponent<RectTransform>()); ;
                                         g.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                                         // print("Key1" + key1 + " " + _probe.idMap[key1]);
                                         lstCadre.Add(g);
@@ -316,7 +316,7 @@ public class Config : MonoBehaviour
                                         GameObject g = Instantiate(__hprobe);
                                         g.transform.name = __hprobe.name;
                                         g.transform.SetParent(_probe.idMap[key2].transform);
-                                        g.GetComponent<RectTransform>().sizeDelta = _probe.idMap[key2].GetComponent<RectTransform>().sizeDelta;
+                                        g.GetComponent<RectTransform>().sizeDelta =Util.getWH( _probe.idMap[key2].GetComponent<RectTransform>());
                                         g.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                                         lstCadre.Add(g);
                                     }

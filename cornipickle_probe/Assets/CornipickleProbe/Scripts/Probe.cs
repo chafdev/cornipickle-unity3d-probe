@@ -264,7 +264,7 @@ public class Probe : MonoBehaviour
         analyseView(v, 0, arr, MotionEvent.non);
 
         Config.instance.setRequest(resultJson.ToString());
-      //  Debug.Log(resultJson.ToString());
+        Debug.Log(resultJson.ToString());
     }
 
     public bool isAttributeExists(String property_name)
@@ -306,7 +306,8 @@ public class Probe : MonoBehaviour
 
     public bool canIncludeThisView(JSONObject jNodeChild, Component t)
     {
-
+        if (t == null)
+            return false;
         int id = t.GetInstanceID();
 
         String _element = t.GetType().Name;
@@ -514,52 +515,4 @@ public class Probe : MonoBehaviour
 
 }
 
-
-/*
- *   //    analyseViews(canvas[0].transform,0,arr);
-        // Note: your data can only be numbers and strings.
-        // This is not a solution for object serialization
-        // or anything like that.
-        /*  JSONObject j = new JSONObject(JSONObject.Type.OBJECT);
-          // number
-          j.AddField("field1", 0.5f);
-          // string
-          j.AddField("field2", "sampletext");
-          // array
-          JSONObject arr = new JSONObject(JSONObject.Type.ARRAY);
-          j.AddField("field3", arr);
-
-          arr.Add(1);
-          arr.Add(2);
-          arr.Add(3);
-          // arr.AddField("test",j);
-          JSONObject j1 = new JSONObject(JSONObject.Type.OBJECT);
-          // number
-          j1.AddField("f1", 0.5f);
-          // string
-          j1.AddField("f2", "sampletext");
-          arr.Add(j1);
-          Debug.Log(j.ToString());
-
-          //string encodedString = j.print();*/
-/*
-      * 
-      * 
-      * var tree = new TreeNode("Root")
-            {
-                new TreeNode("Category 1")
-                    {
-                        new TreeNode("Item 1"),
-                        new TreeNode("Item 2"),
-                        new TreeNode("Item 3"),
-                    },
-                new TreeNode("Category 2")
-                    {
-                        new TreeNode("Item 1"),
-                        new TreeNode("Item 2"),
-                        new TreeNode("Item 3"),
-                        new TreeNode("Item 4"),
-                    }
-            };
-            */
 
