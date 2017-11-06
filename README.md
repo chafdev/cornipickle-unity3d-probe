@@ -1,5 +1,4 @@
-# cornipickle-unity3d-probe
-A Cornipickle probe for Android Applications
+A Cornipickle probe for Unity3d Games
 ============================================
 
 The Cornipickle testing tool can automatically detect and report violations of 
