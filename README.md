@@ -16,8 +16,8 @@ Table of Contents                                                    {#toc}
 -----------------
 
 - [Compiling and installing the Cornipickle probe](#install)
-    - [Server](https://github.com/chafdev/cornipickle/commits/master)
-    - [Client (Probe)](#probe).
+    - [Server](https://github.com/chafdev/cornipickle/)
+    - [Client (Probe)](https://github.com/chafdev/cornipickle-unity3d-probe/tree/package).
 - [About the author](#about)
 
 Compiling and Installing Cornipickle                             {#install}
