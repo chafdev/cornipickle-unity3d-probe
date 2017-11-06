@@ -24,7 +24,7 @@ Compiling and Installing Cornipickle                             {#install}
 Server: 
 
 - For install and run server ,you can find more information
-  [here](https://github.com/liflab/cornipickle) 
+  [here](https://github.com/chafdev/cornipickle/) 
 
 Probe:                                                             {#probe}
    
