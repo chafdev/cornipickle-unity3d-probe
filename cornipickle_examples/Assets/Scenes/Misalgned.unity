@@ -2443,8 +2443,13 @@ Prefab:
     - target: {fileID: 114547288036346630, guid: 92c446a2031666b418d91234872b4325,
         type: 2}
       propertyPath: nameProp
-      value: misaligned_Element
+      value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 114547288036346630, guid: 92c446a2031666b418d91234872b4325,
+        type: 2}
+      propertyPath: txtProb
+      value: 
+      objectReference: {fileID: 4900000, guid: dbf49bc6470b8a644a216c5ed4ed12f7, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 92c446a2031666b418d91234872b4325, type: 2}
   m_IsPrefabParent: 0
