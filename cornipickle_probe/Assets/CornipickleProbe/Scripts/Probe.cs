@@ -264,7 +264,7 @@ public class Probe : MonoBehaviour
         analyseView(v, 0, arr, MotionEvent.non);
 
         Config.instance.setRequest(resultJson.ToString());
-        Debug.Log(resultJson.ToString());
+      //  Debug.Log(resultJson.ToString());
     }
 
     public bool isAttributeExists(String property_name)

@@ -92,7 +92,7 @@ public class Util
         Vector3[] v = new Vector3[4];
         rt.GetWorldCorners(v);
         Rect newRect = new Rect(v[0], v[2] - v[0]);
-        Debug.Log("rct" + newRect);
+      //  Debug.Log("rct" + newRect);
         switch (corner)
         {
             case CornerRectangle.left:
@@ -104,15 +104,6 @@ public class Util
                 return (int)(Screen.height- (newRect.position.y + newRect.size.y));
             case CornerRectangle.right:
                 return (int)(Screen.width - (newRect.position.x+ newRect.size.x));
-                
-          /*      case CornerRectangle.left:
-                    return v[0].x + rt.sizeDelta.x;
-                case CornerRectangle.bottom:
-                    return v[1].y - rt.sizeDelta.y;
-                case CornerRectangle.top:
-                    return Screen.height - (v[3].y + rt.sizeDelta.y);// top
-                case CornerRectangle.right:
-                    return v[2].x + rt.sizeDelta.x;*/
 
         }
 

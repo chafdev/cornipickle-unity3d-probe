@@ -8,11 +8,12 @@ public class DisplayProp : MonoBehaviour
 {
     public TextAsset txt;
     public Text txtUi;
+    public Text txtTitle;
     // Use this for initialization
     public void load()
     {
         txtUi.text = "";
-
+        txtTitle.text = txt.name;
         TextAssetToList(txt);
 
 
@@ -33,16 +34,16 @@ public class DisplayProp : MonoBehaviour
     public void colorizer_comment(string line)
     {
 
-        // line = setLine(line, "blue", @"(#.+)");
+        line = setLine(line, "#80a", @"(#.+)");
         line = setLine(line, "#e09", @"(\sleft\s|\sright\s|\stop\s|\sbottom\s|\sheight\s|\swidth\s|\stext\s|\sid\s|\sclass\s|\sname\s|\sevent\s)");
-        line = setLine(line, "green", @"(We say that|\swhen\s)");
+        line = setLine(line, "green", @"(\sWe say that\s|\swhen\s)");
         line = setLine(line, "green", @"(For each|\sin\s)");
         line = setLine(line, "green", @"(There exists|such that)");
-        line = setLine(line, "#44f", @"(And|Or)");
+        line = setLine(line, "#44f", @"(\sAnd\s|\sOr\s)");
         line = setLine(line, "#44f", @"(\sequals\s|is greater than|is less than)");
         line = setLine(line, "#aaa", @"(\))");
         line = setLine(line, "#aaa", @"(\()");
-        Debug.Log(line);
+       // Debug.Log(line);
         txtUi.text += line + "\n";
 
 

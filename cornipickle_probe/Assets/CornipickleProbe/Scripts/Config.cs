@@ -10,7 +10,6 @@ public class Config : MonoBehaviour
     public delegate void ClickAction();
     public static event ClickAction OnKeyForBug;
     public static event ClickAction OnKeyForReset;
-    public string data = "";
     RequestResponse _rrAdd = new RequestResponse();
     RequestResponse _rrImage = new RequestResponse();
     RequestResponse _rrCurent = new RequestResponse();
@@ -24,6 +23,8 @@ public class Config : MonoBehaviour
     Probe _probe;
     [SerializeField]
     TextAsset txtProb;
+    [SerializeField]
+    String nameProp;
     [SerializeField]
     PosLayoutResult posLayoutResponse = PosLayoutResult.left_top;
     List<GameObject> lstCadre = new List<GameObject>();
@@ -70,14 +71,12 @@ public class Config : MonoBehaviour
                 }
         }
     }
-    [SerializeField]
-    String nameProp;
     public void Awake()
     {
         canvasProbeCurrent = Instantiate(canvasProbe);
         instance = this;
         _rrImage.set("http://localhost:10101/imageMobile/", "", RequestName.image);
-        loadProperties(nameProp);
+        loadProperties();
 
     }
     void Start()
@@ -98,6 +97,14 @@ public class Config : MonoBehaviour
     public void loadProperties(String namep)
     {
         txtProb = Resources.Load("props/" + namep, typeof(TextAsset)) as TextAsset;
+        _rrAdd.set("http://localhost:10101/addMobile", txtProb.text, RequestName.add);
+        _rrCurent = _rrAdd;
+        StartCoroutine(download());
+    }
+    public void loadProperties()
+    {
+        if (txtProb == null)
+            txtProb = Resources.Load("props/" + nameProp, typeof(TextAsset)) as TextAsset;
         _rrAdd.set("http://localhost:10101/addMobile", txtProb.text, RequestName.add);
         _rrCurent = _rrAdd;
         StartCoroutine(download());
@@ -139,11 +146,11 @@ public class Config : MonoBehaviour
             if (gPopupInstance == null)
             {
                 gPopupInstance = Instantiate(gPopup);
-      
+
                 gPopupInstance.transform.SetParent(canvasProbeCurrent.transform);
                 gPopupInstance.transform.localScale = Vector3.one;
-                gPopupInstance.GetComponent<RectTransform>().anchoredPosition = new Vector2(-300 ,-200);
-                gPopupInstance.GetComponent<RectTransform>().sizeDelta= new Vector2(600, 400);
+                gPopupInstance.GetComponent<RectTransform>().anchoredPosition = new Vector2(-300, -200);
+                gPopupInstance.GetComponent<RectTransform>().sizeDelta = new Vector2(600, 400);
 
 
 
@@ -170,11 +177,10 @@ public class Config : MonoBehaviour
     }
     public IEnumerator download()
     {
-        Debug.Log("downloading .. " + getChemin());
+       // Debug.Log("downloading .. " + getChemin());
         byte[] myData = null;
         if (_rrCurent._requestName == RequestName.image)
         {
-            Debug.Log("je vais");
             string datas = "contents=" + UrlUtility.UrlEncode(_rrCurent._dataToSend);
             datas += "&interpreter=" + UrlUtility.UrlEncode(_probe.interpreter);
             datas += "&id=" + 1;
@@ -219,12 +225,12 @@ public class Config : MonoBehaviour
                 foreach (JSONObject j in attrs.list)
                 {
                     _probe.LstAttributes.Add(j.str.ToString());
-                    Debug.Log(j.str.ToString());
+                  //  Debug.Log(j.str.ToString());
                 }
                 foreach (JSONObject j in arrTags.list)
                 {
                     _probe.LstContainer.Add(j.str.ToString());
-                    Debug.Log(j.str.ToString());
+                  //  Debug.Log(j.str.ToString());
                 }
 
                 //_probe.start();
@@ -380,5 +386,5 @@ public class Config : MonoBehaviour
         }
     }
 
- 
+
 }
