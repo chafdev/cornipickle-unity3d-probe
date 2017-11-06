@@ -9,8 +9,6 @@ The [client code](https://github.com/chafdev/cornipickle-unity3d-probe/tree/mast
 the current state of the window activity and relaying it to 
 [the server](https://github.com/chafdev/cornipickle/commits/master) for further processing.
 
-For more information about UI guidelines, please visit
-[https://material.io/guidelines/](https://material.io/guidelines/).
 
 Table of Contents                                                    {#toc}
 -----------------
